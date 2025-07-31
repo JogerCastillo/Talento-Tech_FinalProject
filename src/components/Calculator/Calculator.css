@@ -1,0 +1,417 @@
+.calculator {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.calculator-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.calculator-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Formulario */
+.calculator-form {
+  padding: 2.5rem;
+  position: sticky;
+  top: 120px;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-icon {
+  color: var(--primary-green);
+  width: 24px;
+  height: 24px;
+}
+
+.form-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Tipos de vivienda */
+.household-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.household-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.household-btn:hover {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: var(--primary-green);
+  color: var(--text-primary);
+}
+
+.household-btn.active {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  color: var(--bg-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Input wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+
+.input-unit {
+  position: absolute;
+  right: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.input-help {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Acciones del formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Resultados */
+.calculator-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Resultado principal */
+.main-result {
+  padding: 2rem;
+  text-align: center;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.result-icon {
+  color: var(--primary-green);
+  width: 24px;
+  height: 24px;
+}
+
+.result-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Círculo de porcentaje */
+.result-circle {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.5rem;
+}
+
+.circular-chart {
+  display: block;
+  margin: 10px auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 2.8;
+}
+
+.circle {
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out;
+}
+
+.percentage {
+  fill: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 0.5em;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.result-info h4 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+}
+
+.result-info p {
+  color: var(--text-secondary);
+}
+
+/* Detalles de resultados */
+.result-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.detail-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.detail-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.detail-card h4 {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.detail-value.renewable {
+  color: var(--primary-green);
+}
+
+.detail-value.co2 {
+  color: #ff6b35;
+}
+
+.detail-value.trees {
+  color: #00ff88;
+}
+
+.detail-value span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Desglose de energía */
+.energy-breakdown {
+  padding: 2rem;
+}
+
+.energy-breakdown h4 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.breakdown-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.breakdown-item {
+  display: grid;
+  grid-template-columns: 100px 1fr 60px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.breakdown-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.breakdown-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.breakdown-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.breakdown-fill.hydro {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
+}
+
+.breakdown-fill.solar {
+  background: linear-gradient(90deg, #ffd200, #ffb300);
+}
+
+.breakdown-fill.wind {
+  background: linear-gradient(90deg, #00ff88, #00cc6a);
+}
+
+.breakdown-fill.geothermal {
+  background: linear-gradient(90deg, #ff6b35, #e55527);
+}
+
+.breakdown-fill.bioenergy {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+.breakdown-value {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .calculator-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .calculator-form {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .household-types {
+    grid-template-columns: 1fr;
+  }
+  
+  .result-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .breakdown-item {
+    grid-template-columns: 80px 1fr 50px;
+    gap: 0.75rem;
+  }
+  
+  .result-circle {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calculator-form,
+  .main-result,
+  .energy-breakdown {
+    padding: 1.5rem;
+  }
+  
+  .form-actions {
+    gap: 0.75rem;
+  }
+}
