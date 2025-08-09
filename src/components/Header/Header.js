@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Menu, X, Sun, Moon } from 'lucide-react';
-import './Header.css';
+import './Header.css'; 
 
-const Header = ({ darkMode, toggleDarkMode }) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -87,7 +87,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
 
           {/* Controles */}
           <div className="header-controls">
-            {/* Toggle Dark Mode */}
+            {/* Toggle Dark Mode 
             <motion.button
               className="theme-toggle"
               onClick={toggleDarkMode}
@@ -96,7 +96,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </motion.button>
-
+              */}
             {/* Menú Mobile */}
             <motion.button
               className="menu-toggle"

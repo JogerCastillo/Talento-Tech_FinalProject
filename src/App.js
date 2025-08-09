@@ -15,7 +15,7 @@ import LoadingScreen from './components/Loading/LoadingScreen';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
+  //const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     // Simulamos carga inicial
@@ -26,16 +26,16 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleDarkMode = () => {
+  /*const toggleDarkMode = () => {
     setDarkMode(!darkMode);
-  };
+  };*/
 
   if (loading) {
     return <LoadingScreen />;
   }
 
   return (
-    <div className={`App ${darkMode ? 'dark' : 'light'}`}>
+    <div>
       <ParticlesBackground />
       
       <AnimatePresence mode="wait">
@@ -46,7 +46,7 @@ function App() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+          <Header  />
           
           <Routes>
             <Route path="/" element={
