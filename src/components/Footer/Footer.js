@@ -50,7 +50,7 @@ const Footer = () => {
               <li><a href="https://www.kaggle.com/datasets/belayethossainds/renewable-energy-world-wide-19652022" target="_blank" rel="noopener noreferrer">Dataset Kaggle</a></li>
               <li><a href="https://www.w3schools.com/" target="_blank" rel="noopener noreferrer">W3Schools</a></li>
               <li><a href="https://desarrolloweb.com/manuales/css3.html" target="_blank" rel="noopener noreferrer">CSS3 Manual</a></li>
-              <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/JogerCastillo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
           </div>
 
@@ -58,7 +58,7 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Proyecto</h4>
             <ul>
-              <li>TalentoTECH Final</li>
+              <li>Bootcamp TalentoTECH</li>
               <li>Energía Renovable</li>
               <li>Transición Energética</li>
               <li>React & JavaScript</li>
@@ -69,7 +69,7 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-copyright">
             <p>
-              Hecho con <Heart size={16} className="heart" /> para TalentoTECH 2024
+              Hecho con <Heart size={16} className="heart" /> para TalentoTECH 2025 by Boot-Developers
             </p>
           </div>
           <div className="footer-tech">
