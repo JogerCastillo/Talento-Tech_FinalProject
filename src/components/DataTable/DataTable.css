@@ -412,6 +412,91 @@
   color: var(--text-secondary);
 }
 
+/* Documentación técnica */
+.documentation {
+  margin-bottom: 3rem;
+  padding: 2rem;
+}
+
+.documentation h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.doc-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.doc-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.doc-section h4 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doc-section p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.doc-section ul {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  padding-left: 1.5rem;
+}
+
+.doc-section li {
+  margin-bottom: 0.5rem;
+}
+
+.doc-section li strong {
+  color: var(--primary-green);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stats-grid .stat-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.stats-grid .stat-item strong {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin-bottom: 0.25rem;
+}
+
+.stats-grid .stat-item span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 @media (max-width: 768px) {
   .filters-grid {
     grid-template-columns: 1fr;
@@ -425,10 +510,26 @@
   .summary-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .documentation {
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .documentation {
+    padding: 1rem;
   }
 }

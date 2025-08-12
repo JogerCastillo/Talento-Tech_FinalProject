@@ -13,8 +13,31 @@ const DataTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
+  const [showDocumentation, setShowDocumentation] = useState(false);
   
   const itemsPerPage = 10;
+
+  // Función para descargar CSV
+  const downloadCSV = () => {
+    // Crear URL del archivo CSV
+    const csvUrl = '/renewable-energy-data.csv';
+    
+    // Crear elemento temporal para descarga
+    const link = document.createElement('a');
+    link.href = csvUrl;
+    link.download = 'renewable-energy-data.csv';
+    link.style.display = 'none';
+    
+    // Agregar al DOM, hacer clic y remover
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Función para mostrar/ocultar documentación
+  const toggleDocumentation = () => {
+    setShowDocumentation(!showDocumentation);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,16 +124,93 @@ const DataTable = () => {
             </p>
 
             <div className="page-actions">
-              <button className="btn btn-primary">
+              <button className="btn btn-primary" onClick={downloadCSV}>
                 <Download size={20} />
                 Descargar CSV
               </button>
-              <button className="btn btn-secondary">
+              <button className="btn btn-secondary" onClick={toggleDocumentation}>
                 <FileText size={20} />
-                Documentación
+                {showDocumentation ? 'Ocultar Documentación' : 'Documentación'}
               </button>
             </div>
           </div>
+
+          {/* Documentación técnica (se muestra/oculta con el botón) */}
+          {showDocumentation && (
+            <motion.div 
+              className="documentation glass-card"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3>📋 Documentación Técnica del Dataset</h3>
+              
+              <div className="doc-section">
+                <h4>📊 Descripción del Dataset</h4>
+                <p>
+                  Este conjunto de datos contiene información histórica sobre energía renovable 
+                  a nivel mundial desde 1965 hasta 2022. Los datos provienen de fuentes oficiales 
+                  como BP Statistical Review, IRENA y la Agencia Internacional de Energía.
+                </p>
+              </div>
+
+              <div className="doc-section">
+                <h4>📈 Columnas Principales</h4>
+                <ul>
+                  <li><strong>Entity:</strong> País o región</li>
+                  <li><strong>Year:</strong> Año de los datos (1965-2022)</li>
+                  <li><strong>hydro-generation:</strong> Generación hidroeléctrica (TWh)</li>
+                  <li><strong>solar-generation:</strong> Generación solar (TWh)</li>
+                  <li><strong>wind-generation:</strong> Generación eólica (TWh)</li>
+                  <li><strong>geothermal-generation:</strong> Generación geotérmica (TWh)</li>
+                  <li><strong>share-electricity-renewables:</strong> % de electricidad renovable</li>
+                  <li><strong>installed-capacity:</strong> Capacidad instalada por fuente</li>
+                </ul>
+              </div>
+
+              <div className="doc-section">
+                <h4>🔧 Uso en la Aplicación</h4>
+                <ul>
+                  <li><strong>Dashboard:</strong> Los gráficos se generan agregando datos por fuente y año</li>
+                  <li><strong>Calculadora:</strong> Utiliza porcentajes por país para cálculos personalizados</li>
+                  <li><strong>Tabla:</strong> Permite filtrar y explorar todos los registros</li>
+                </ul>
+              </div>
+
+              <div className="doc-section">
+                <h4>📋 Estadísticas del Dataset</h4>
+                <div className="stats-grid">
+                  <div className="stat-item">
+                    <strong>{stats.totalRecords.toLocaleString()}</strong>
+                    <span>Registros totales</span>
+                  </div>
+                  <div className="stat-item">
+                    <strong>{stats.countries}</strong>
+                    <span>Países/regiones</span>
+                  </div>
+                  <div className="stat-item">
+                    <strong>57</strong>
+                    <span>Años de datos</span>
+                  </div>
+                  <div className="stat-item">
+                    <strong>5</strong>
+                    <span>Fuentes renovables</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="doc-section">
+                <h4>🌐 Fuentes de Datos</h4>
+                <ul>
+                  <li>BP Statistical Review of World Energy</li>
+                  <li>International Renewable Energy Agency (IRENA)</li>
+                  <li>International Energy Agency (IEA)</li>
+                  <li>Our World in Data</li>
+                </ul>
+              </div>
+            </motion.div>
+          )}
 
           {/* Información del dataset */}
           <div className="dataset-info glass-card">
