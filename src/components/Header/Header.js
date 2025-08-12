@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Menu, X, Sun, Moon } from 'lucide-react';
 import './Header.css';
@@ -8,6 +8,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,9 +23,28 @@ const Header = ({ darkMode, toggleDarkMode }) => {
     { name: 'Inicio', path: '/', hash: '#home' },
     { name: 'Acerca de', path: '/', hash: '#about' },
     { name: 'Datos', path: '/data' },
-    { name: 'Calculadora', path: '/', hash: '#calculator' },
-    { name: 'Dashboard', path: '/', hash: '#dashboard' }
+    { name: 'Calculadora', path: '/calculator' },
+    { name: 'Dashboard', path: '/dashboard' }
   ];
+
+  const handleNavigation = (item) => {
+    setIsMenuOpen(false);
+    
+    if (item.path === '/' && item.hash) {
+      // Si el item tiene hash y estamos navegando a home
+      if (location.pathname === '/') {
+        // Ya estamos en home, solo hacer scroll
+        scrollToSection(item.hash);
+      } else {
+        // Navegar a home primero, luego hacer scroll
+        navigate('/');
+        setTimeout(() => {
+          scrollToSection(item.hash);
+        }, 100);
+      }
+    }
+    // Para rutas normales (sin hash), React Router se encarga automáticamente a través del Link
+  };
 
   const scrollToSection = (hash) => {
     if (hash) {
@@ -33,7 +53,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-    setIsMenuOpen(false);
   };
 
   return (
@@ -46,7 +65,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
       <div className="container">
         <div className="header-content">
           {/* Logo */}
-          <Link to="/" className="logo" onClick={() => scrollToSection('#home')}>
+          <Link to="/" className="logo">
             <motion.div 
               className="logo-icon"
               whileHover={{ rotate: 360 }}
@@ -68,7 +87,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
               >
                 {item.path === '/' && item.hash ? (
                   <button 
-                    onClick={() => scrollToSection(item.hash)}
+                    onClick={() => handleNavigation(item)}
                     className="nav-link"
                   >
                     {item.name}
@@ -129,7 +148,7 @@ const Header = ({ darkMode, toggleDarkMode }) => {
               >
                 {item.path === '/' && item.hash ? (
                   <button 
-                    onClick={() => scrollToSection(item.hash)}
+                    onClick={() => handleNavigation(item)}
                     className="nav-link-mobile"
                   >
                     {item.name}

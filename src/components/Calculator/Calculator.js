@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { Calculator as CalcIcon, Zap, TrendingUp, Home, Building, Info } from 'lucide-react';
+import { getDashboardData } from '../../utils/dataManager';
 import './Calculator.css';
 
 const Calculator = () => {
   const [consumption, setConsumption] = useState('');
+  const [country, setCountry] = useState('global');
   const [householdType, setHouseholdType] = useState('small');
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState(null);
   
   const controls = useAnimation();
   const ref = useRef(null);
@@ -19,14 +22,17 @@ const Calculator = () => {
     }
   }, [controls, isInView]);
 
-  // Datos simulados de capacidad instalada (se reemplazarán con datos reales)
-  const renewableCapacity = {
-    hydro: 1380, // GW
-    solar: 940,
-    wind: 890,
-    geothermal: 15,
-    bioenergy: 130
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getDashboardData();
+        setDashboardData(data);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const householdTypes = {
     small: { name: 'Casa Pequeña', multiplier: 1, icon: <Home size={20} /> },
@@ -35,41 +41,70 @@ const Calculator = () => {
     apartment: { name: 'Apartamento', multiplier: 0.7, icon: <Building size={20} /> }
   };
 
+  const getCountryOptions = () => {
+    if (!dashboardData || !dashboardData.stats || !Array.isArray(dashboardData.stats)) {
+      return [{ value: 'global', label: 'Global' }];
+    }
+    
+    const countries = [...new Set(dashboardData.stats.map(s => s.country))];
+    return [
+      { value: 'global', label: 'Global' },
+      ...countries.map(country => ({ value: country, label: country }))
+    ];
+  };
+
   const calculateRenewablePercentage = () => {
-    if (!consumption || consumption <= 0) return;
+    if (!consumption || consumption <= 0 || !dashboardData || !dashboardData.globalStats) return;
 
     setLoading(true);
     
-    // Simulamos cálculo (se reemplazará con lógica real basada en datos)
     setTimeout(() => {
-      const totalRenewableCapacity = Object.values(renewableCapacity).reduce((sum, cap) => sum + cap, 0);
       const userConsumption = parseFloat(consumption);
       const typeMultiplier = householdTypes[householdType].multiplier;
       const adjustedConsumption = userConsumption * typeMultiplier;
       
-      // Cálculos simulados
-      const renewablePercentage = Math.min(85, (totalRenewableCapacity / 50) + Math.random() * 20);
+      // Obtener datos reales según país seleccionado
+      let renewablePercentage = dashboardData.globalStats.renewablePercentage || 25;
+      
+      if (country !== 'global' && dashboardData.stats && Array.isArray(dashboardData.stats)) {
+        const countryData = dashboardData.stats.find(s => s.country === country);
+        renewablePercentage = countryData?.renewableShare || renewablePercentage;
+      }
+
       const monthlyConsumption = adjustedConsumption;
       const renewableConsumption = (monthlyConsumption * renewablePercentage) / 100;
-      const co2Saved = renewableConsumption * 0.5; // kg CO2 ahorrado por kWh renovable
+      const fossilConsumption = monthlyConsumption - renewableConsumption;
+      
+      // Cálculos ambientales con datos reales
+      const co2Saved = fossilConsumption * 0.3; // 0.3 kg CO2/kWh diferencia entre fósil y renovable
       const treesEquivalent = Math.round(co2Saved / 22); // Un árbol absorbe ~22kg CO2/año
       
+      // Cálculos económicos
+      const avgCostPerKwh = 0.15;
+      const monthlyCost = monthlyConsumption * avgCostPerKwh;
+      const renewableSavings = monthlyCost * 0.1; // 10% ahorro estimado con renovables
+      
+      // Desglose por fuente (basado en distribución promedio global)
       const breakdown = {
-        hydro: (renewableCapacity.hydro / totalRenewableCapacity) * renewablePercentage,
-        solar: (renewableCapacity.solar / totalRenewableCapacity) * renewablePercentage,
-        wind: (renewableCapacity.wind / totalRenewableCapacity) * renewablePercentage,
-        geothermal: (renewableCapacity.geothermal / totalRenewableCapacity) * renewablePercentage,
-        bioenergy: (renewableCapacity.bioenergy / totalRenewableCapacity) * renewablePercentage
+        hydro: renewablePercentage * 0.4,
+        solar: renewablePercentage * 0.25,
+        wind: renewablePercentage * 0.3,
+        geothermal: renewablePercentage * 0.03,
+        bioenergy: renewablePercentage * 0.02
       };
 
       setResults({
         renewablePercentage: renewablePercentage.toFixed(1),
         monthlyConsumption: monthlyConsumption.toFixed(1),
         renewableConsumption: renewableConsumption.toFixed(1),
+        fossilConsumption: fossilConsumption.toFixed(1),
         co2Saved: co2Saved.toFixed(1),
         treesEquivalent,
+        monthlyCost: monthlyCost.toFixed(2),
+        renewableSavings: renewableSavings.toFixed(2),
         breakdown,
-        householdType: householdTypes[householdType].name
+        householdType: householdTypes[householdType].name,
+        selectedCountry: country === 'global' ? 'Promedio Global' : country
       });
       
       setLoading(false);
@@ -129,7 +164,7 @@ const Calculator = () => {
               }}
             >
               Descubre qué porcentaje de tu consumo eléctrico puede ser cubierto 
-              por energías renovables y conoce tu impacto ambiental.
+              por energías renovables y conoce tu impacto ambiental con datos reales.
             </motion.p>
           </div>
 
@@ -145,6 +180,22 @@ const Calculator = () => {
               <div className="form-header">
                 <Zap className="form-icon" />
                 <h3>Ingresa tus datos</h3>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="country">País/Región</label>
+                <select
+                  id="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="country-select"
+                >
+                  {getCountryOptions().map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">
@@ -189,7 +240,7 @@ const Calculator = () => {
                   type="button"
                   className="btn btn-primary"
                   onClick={calculateRenewablePercentage}
-                  disabled={!consumption || loading}
+                  disabled={!consumption || loading || !dashboardData}
                 >
                   {loading ? (
                     <>
@@ -229,6 +280,7 @@ const Calculator = () => {
                   <div className="result-header">
                     <TrendingUp className="result-icon" />
                     <h3>Tu perfil energético</h3>
+                    <p className="result-location">{results.selectedCountry}</p>
                   </div>
                   
                   <div className="result-circle">
@@ -279,8 +331,27 @@ const Calculator = () => {
                   </div>
                   
                   <div className="detail-card">
-                    <h4>Equivale a</h4>
-                    <p className="detail-value trees">{results.treesEquivalent} <span>árboles</span></p>
+                    <h4>Ahorro Mensual</h4>
+                    <p className="detail-value savings">${results.renewableSavings}</p>
+                  </div>
+                </div>
+
+                {/* Impacto ambiental */}
+                <div className="environmental-impact glass-card">
+                  <h4>Impacto Ambiental</h4>
+                  <div className="impact-stats">
+                    <div className="impact-item">
+                      <span className="impact-value">{results.treesEquivalent}</span>
+                      <span className="impact-label">Árboles equivalentes</span>
+                    </div>
+                    <div className="impact-item">
+                      <span className="impact-value">{results.co2Saved}</span>
+                      <span className="impact-label">kg CO₂ evitados/mes</span>
+                    </div>
+                    <div className="impact-item">
+                      <span className="impact-value">${results.renewableSavings}</span>
+                      <span className="impact-label">Ahorro mensual</span>
+                    </div>
                   </div>
                 </div>
 
@@ -311,6 +382,14 @@ const Calculator = () => {
                   </div>
                 </div>
               </motion.div>
+            )}
+
+            {/* Loading state */}
+            {!dashboardData && (
+              <div className="loading-calculator">
+                <div className="spinner"></div>
+                <p>Cargando datos energéticos...</p>
+              </div>
             )}
           </div>
         </motion.div>
