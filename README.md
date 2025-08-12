@@ -78,7 +78,7 @@ Los datos del archivo CSV de energía renovable ya están completamente integrad
 - ✅ **Efectos visuales** modernos (glassmorphism)
 - ✅ **Integración completa** con dataset de energía renovable (1965-2022)
 
-## 🎨 Diseño Inspirado en wizardmode.io
+## 🎨 Diseño Inspirado en páginas web modernas y dinámicas
 
 - 🌈 **Gradientes dinámicos** y colores vibrantes
 - ✨ **Efectos glassmorphism** y transparencias
@@ -88,7 +88,7 @@ Los datos del archivo CSV de energía renovable ya están completamente integrad
 
 ## 🔧 Personalización y Extensión
 
-El proyecto está completamente funcional con datos reales, pero puedes:
+El proyecto escompletamente funcional con datos reales, pero es posible:
 1. **Ajustar visualizaciones** en `src/components/Dashboard/`
 2. **Personalizar cálculos** de la calculadora en `src/utils/dataManager.js`
 3. **Modificar filtros** de la tabla de datos
