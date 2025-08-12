@@ -20,34 +20,12 @@
 
 import Papa from 'papaparse';
 
-// Datos de ejemplo mientras llegan los datos reales
+// NOTA: Ya no se usan datos de ejemplo - todo viene del CSV real
+// Se mantiene esta estructura solo para compatibilidad con funciones legacy
 export const sampleRenewableData = {
-  // Capacidad instalada por fuente (GW) - datos globales actuales
-  globalCapacity: {
-    hydro: 1380,
-    solar: 940, 
-    wind: 890,
-    geothermal: 15,
-    bioenergy: 130
-  },
-  
-  // Datos históricos de ejemplo
-  historicalData: [
-    {
-      year: 2022,
-      country: 'World',
-      hydroGeneration: 4370, // TWh
-      solarGeneration: 1177,
-      windGeneration: 2100,
-      geothermalGeneration: 95,
-      biofuelProduction: 1800,
-      shareElectricityRenewables: 28.2,
-      shareElectricityHydro: 15.8,
-      shareElectricitySolar: 4.5,
-      shareElectricityWind: 7.6
-    }
-    // Más datos se agregarán desde el CSV
-  ]
+  // Estos valores se calculan dinámicamente desde el CSV
+  globalCapacity: {}, // Se calcula desde datos reales
+  historicalData: [] // Se carga desde CSV
 };
 
 /**
