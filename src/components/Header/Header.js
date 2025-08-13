@@ -106,15 +106,6 @@ const Header = ({ darkMode, toggleDarkMode }) => {
 
           {/* Controles */}
           <div className="header-controls">
-            {/* Toggle Dark Mode */}
-            <motion.button
-              className="theme-toggle"
-              onClick={toggleDarkMode}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
 
             {/* Menú Mobile */}
             <motion.button

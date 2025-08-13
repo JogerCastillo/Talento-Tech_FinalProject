@@ -10,7 +10,6 @@ Este es un dashboard interactivo de energía renovable desarrollado como proyect
 - **Página informativa sobre energía hidroeléctrica**
 - **Framework React con diseño moderno**
 - **Diseño responsive y visualmente atractivo**
-- **Inspirado en el estilo de wizardmode.io**
 
 ### 📊 Nivel 2 - Completado ✅
 - **Visualización tabular de datos históricos**

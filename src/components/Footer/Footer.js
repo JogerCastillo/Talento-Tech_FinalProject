@@ -19,13 +19,13 @@ const Footer = () => {
               y la democratización del conocimiento tecnológico.
             </p>
             <div className="footer-social">
-              <a href="#" className="social-link" aria-label="GitHub">
+              <a href="https://github.com/JogerCastillo/Talento-Tech_FinalProject" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
                 <Github size={20} />
               </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/joger-gabriel-castillo-quitian-91b0451a5/" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="social-link" aria-label="Email">
+              <a href="mailto:joger6c@gmail.com" className="social-link" aria-label="Email">
                 <Mail size={20} />
               </a>
             </div>
@@ -36,10 +36,10 @@ const Footer = () => {
             <h4>Navegación</h4>
             <ul>
               <li><Link to="/">Inicio</Link></li>
-              <li><a href="#about">Acerca de</a></li>
-              <li><Link to="/data">Datos</Link></li>
-              <li><a href="#calculator">Calculadora</a></li>
-              <li><a href="#dashboard">Dashboard</a></li>
+                <li><Link to="/about">Acerca de</Link></li>
+                <li><Link to="/data">Datos</Link></li>
+                <li><Link to="/calculator">Calculadora</Link></li>
+                <li><Link to="/dashboard">Dashboard</Link></li>
             </ul>
           </div>
 
